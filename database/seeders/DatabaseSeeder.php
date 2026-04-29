@@ -2,21 +2,37 @@
 
 namespace Database\Seeders;
 
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use App\Models\User;
+use App\Models\Category;
+use App\Models\Product;
+use App\Models\Order;
+use App\Models\Address;
 
 class DatabaseSeeder extends Seeder
 {
-    /**
-     * Seed the application's database.
-     */
     public function run(): void
     {
-        // \App\Models\User::factory(10)->create();
+        // Creează 10 categorii
+        $categories = Category::factory()->count(10)->create();
 
-        // \App\Models\User::factory()->create([
-        //     'name' => 'Test User',
-        //     'email' => 'test@example.com',
-        // ]);
+        // Creează 50 produse — fiecare cu o categorie existentă
+        Product::factory()->count(50)->create([
+            'category_id' => fn() => $categories->random()->id
+        ]);
+
+        // Creează 10 useri
+        $users = User::factory()->count(10)->create();
+
+        // Fiecare user are 2 adrese și 3 comenzi
+        $users->each(function($user) {
+            Address::factory()->count(2)->create([
+                'user_id' => $user->id
+            ]);
+
+            Order::factory()->count(3)->create([
+                'user_id' => $user->id
+            ]);
+        });
     }
 }
