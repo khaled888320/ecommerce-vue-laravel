@@ -18,6 +18,7 @@ COPY . .
 RUN composer install --no-dev --optimize-autoloader
 
 COPY .env.example .env
+RUN sed -i 's/DB_CONNECTION=mysql/DB_CONNECTION=sqlite/' .env
 
 RUN php artisan key:generate
 
