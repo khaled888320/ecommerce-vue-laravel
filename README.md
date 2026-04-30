@@ -64,4 +64,22 @@ A production-ready RESTful API built with Laravel for a full-stack e-commerce ap
 
 ## ⚙️ Installation
 
-```bash
+app/
+├── Http/
+│   ├── Controllers/
+│   │   ├── Admin/          # Admin controllers
+│   │   ├── AuthController
+│   │   ├── ProductController
+│   │   ├── CartItemController
+│   │   └── OrderController
+│   ├── Middleware/
+│   │   └── IsAdmin         # Admin protection
+│   └── Requests/           # Form validation
+├── Models/                 # Eloquent models
+├── Services/               # Business logic
+└── Repositories/           # Database queries
+
+## 👨‍💻 Author
+
+**Khaled Marouani** — Full Stack Developer
+- GitHub: [@khaled888320](https://github.com/khaled888320)
