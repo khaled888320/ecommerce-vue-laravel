@@ -23,35 +23,29 @@ Route::get('/setup-admin', function() {
     return response()->json(['message' => 'Done!']);
 });
 
-
-// Rute protejate — trebuie token
+// Rute protejate
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::get('/me', [AuthController::class, 'me']);
 
-    // Coș
     Route::get('/cart', [CartItemController::class, 'index']);
     Route::post('/cart', [CartItemController::class, 'store']);
     Route::delete('/cart/{cartItem}', [CartItemController::class, 'destroy']);
 
-    // Comenzi
     Route::get('/orders', [OrderController::class, 'index']);
     Route::post('/orders', [OrderController::class, 'store']);
     Route::get('/orders/{order}', [OrderController::class, 'show']);
+});
 
-    // Admin routes — protejate + admin only
+// Admin routes
 Route::middleware(['auth:sanctum', 'is_admin'])->prefix('admin')->group(function () {
-    // Produse
     Route::get('/products', [App\Http\Controllers\Admin\ProductController::class, 'index']);
     Route::post('/products', [App\Http\Controllers\Admin\ProductController::class, 'store']);
     Route::put('/products/{product}', [App\Http\Controllers\Admin\ProductController::class, 'update']);
     Route::delete('/products/{product}', [App\Http\Controllers\Admin\ProductController::class, 'destroy']);
 
-    // Categorii
     Route::get('/categories', [App\Http\Controllers\Admin\CategoryController::class, 'index']);
     Route::post('/categories', [App\Http\Controllers\Admin\CategoryController::class, 'store']);
     Route::put('/categories/{category}', [App\Http\Controllers\Admin\CategoryController::class, 'update']);
     Route::delete('/categories/{category}', [App\Http\Controllers\Admin\CategoryController::class, 'destroy']);
-});
-
 });
