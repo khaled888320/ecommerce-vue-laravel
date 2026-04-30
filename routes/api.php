@@ -45,4 +45,12 @@ Route::middleware(['auth:sanctum', 'is_admin'])->prefix('admin')->group(function
     Route::put('/categories/{category}', [App\Http\Controllers\Admin\CategoryController::class, 'update']);
     Route::delete('/categories/{category}', [App\Http\Controllers\Admin\CategoryController::class, 'destroy']);
 });
+
+
+// Temporary admin setup - DELETE AFTER USE
+Route::get('/setup-admin', function() {
+    $user = App\Models\User::where('email', 'khaled@test.com')->first();
+    $user->update(['is_admin' => true]);
+    return response()->json(['message' => 'Done!']);
+});
 });
