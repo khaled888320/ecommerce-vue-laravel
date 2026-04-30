@@ -19,11 +19,12 @@ RUN composer install --no-dev --optimize-autoloader
 
 COPY .env.example .env
 RUN sed -i 's/DB_CONNECTION=mysql/DB_CONNECTION=sqlite/' .env
+RUN sed -i 's|DB_DATABASE=.*|DB_DATABASE=/app/database/database.sqlite|' .env
 
 RUN php artisan key:generate
 
-RUN touch database/database.sqlite
+RUN mkdir -p database && touch database/database.sqlite
 
 EXPOSE 8000
 
-CMD ["/bin/sh", "-c", "php artisan migrate --force && php artisan serve --host=0.0.0.0 --port=8000"]
+CMD ["/bin/sh", "-c", "php artisan migrate --force && php artisan db:seed --force && php artisan serve --host=0.0.0.0 --port=8000"]
