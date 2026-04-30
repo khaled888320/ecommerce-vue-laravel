@@ -21,7 +21,7 @@ class ProductController extends Controller
 
     public function store(Request $request): JsonResponse
     {
-        $request->validate([
+        $data = $request->validate([
             'category_id' => 'required|exists:categories,id',
             'name'        => 'required|string|min:3',
             'description' => 'required|string|min:10',
@@ -33,7 +33,7 @@ class ProductController extends Controller
         ]);
 
         $product = Product::create([
-            ...$request->validated(),
+            ...$data,
             'slug' => Str::slug($request->name),
         ]);
 
@@ -44,7 +44,7 @@ class ProductController extends Controller
 
     public function update(Request $request, Product $product): JsonResponse
     {
-        $request->validate([
+        $data = $request->validate([
             'category_id' => 'exists:categories,id',
             'name'        => 'string|min:3',
             'description' => 'string|min:10',
@@ -59,7 +59,7 @@ class ProductController extends Controller
             $product->slug = Str::slug($request->name);
         }
 
-        $product->update($request->validated());
+        $product->update($data);
         $product->load('category');
 
         return response()->json($product);
