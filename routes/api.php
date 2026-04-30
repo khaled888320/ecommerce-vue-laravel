@@ -30,4 +30,19 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/orders', [OrderController::class, 'index']);
     Route::post('/orders', [OrderController::class, 'store']);
     Route::get('/orders/{order}', [OrderController::class, 'show']);
+
+    // Admin routes — protejate + admin only
+Route::middleware(['auth:sanctum', 'is_admin'])->prefix('admin')->group(function () {
+    // Produse
+    Route::get('/products', [App\Http\Controllers\Admin\ProductController::class, 'index']);
+    Route::post('/products', [App\Http\Controllers\Admin\ProductController::class, 'store']);
+    Route::put('/products/{product}', [App\Http\Controllers\Admin\ProductController::class, 'update']);
+    Route::delete('/products/{product}', [App\Http\Controllers\Admin\ProductController::class, 'destroy']);
+
+    // Categorii
+    Route::get('/categories', [App\Http\Controllers\Admin\CategoryController::class, 'index']);
+    Route::post('/categories', [App\Http\Controllers\Admin\CategoryController::class, 'store']);
+    Route::put('/categories/{category}', [App\Http\Controllers\Admin\CategoryController::class, 'update']);
+    Route::delete('/categories/{category}', [App\Http\Controllers\Admin\CategoryController::class, 'destroy']);
+});
 });
