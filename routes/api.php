@@ -19,8 +19,11 @@ Route::get('/categories', [CategoryController::class, 'index']);
 // Temporary admin setup - DELETE AFTER USE
 Route::get('/setup-admin', function() {
     $user = App\Models\User::where('email', 'khaled@test.com')->first();
+    if (!$user) {
+        return response()->json(['message' => 'User not found! Register first.']);
+    }
     $user->update(['is_admin' => true]);
-    return response()->json(['message' => 'Done!']);
+    return response()->json(['message' => 'Done! ' . $user->name . ' is now admin.']);
 });
 
 // Rute protejate
