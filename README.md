@@ -83,3 +83,13 @@ app/
 
 **Khaled Marouani** — Full Stack Developer
 - GitHub: [@khaled888320](https://github.com/khaled888320)
+
+## 🌐 Live Demo
+
+- **API Base URL**: https://ecommerce-api-r1wr.onrender.com
+- **Frontend**: https://ecommerce-frontend-peach-eta.vercel.app
+
+## 🧪 Test Credentials
+
+- **Email**: khaled@test.com
+- **Password**: 123456
