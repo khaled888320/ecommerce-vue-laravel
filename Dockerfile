@@ -17,16 +17,6 @@ COPY . .
 
 RUN composer install --no-dev --optimize-autoloader
 
-COPY .env.example .env
-
-RUN sed -i 's/DB_CONNECTION=mysql/DB_CONNECTION=pgsql/' .env && \
-    sed -i 's/DB_HOST=127.0.0.1/DB_HOST=aws-0-eu-west-1.pooler.supabase.com/' .env && \
-    sed -i 's/DB_PORT=3306/DB_PORT=5432/' .env && \
-    sed -i 's/DB_DATABASE=laravel/DB_DATABASE=postgres/' .env && \
-    sed -i 's/DB_USERNAME=root/DB_USERNAME=postgres.axvvbexlzzqxwustszwc/' .env
-
-RUN php artisan key:generate
-
 EXPOSE 8000
 
-CMD ["/bin/sh", "-c", "php artisan migrate --force && php artisan serve --host=0.0.0.0 --port=8000"]
+CMD ["/bin/sh", "-c", "cp .env.example .env && sed -i 's/DB_CONNECTION=mysql/DB_CONNECTION=pgsql/' .env && sed -i 's/DB_HOST=127.0.0.1/DB_HOST=aws-0-eu-west-1.pooler.supabase.com/' .env && sed -i 's/DB_PORT=3306/DB_PORT=5432/' .env && sed -i 's/DB_DATABASE=laravel/DB_DATABASE=postgres/' .env && sed -i 's/DB_USERNAME=root/DB_USERNAME=postgres.axvvbexlzzqxwustszwc/' .env && echo \"DB_PASSWORD=$DB_PASSWORD\" >> .env && php artisan key:generate && php artisan migrate --force && php artisan serve --host=0.0.0.0 --port=8000"]
