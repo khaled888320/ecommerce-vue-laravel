@@ -7,9 +7,9 @@ RUN apt-get update && apt-get install -y \
     curl \
     zip \
     unzip \
-    libsqlite3-dev
+    libpq-dev
 
-RUN docker-php-ext-install pdo pdo_sqlite
+RUN docker-php-ext-install pdo pdo_pgsql
 
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
@@ -18,12 +18,10 @@ COPY . .
 RUN composer install --no-dev --optimize-autoloader
 
 COPY .env.example .env
-RUN sed -i 's/DB_CONNECTION=mysql/DB_CONNECTION=sqlite/' .env
-RUN sed -i 's|DB_DATABASE=.*|DB_DATABASE=/app/database/database.sqlite|' .env
+
+RUN sed -i 's/DB_CONNECTION=mysql/DB_CONNECTION=pgsql/' .env
 
 RUN php artisan key:generate
-
-RUN mkdir -p database && touch database/database.sqlite
 
 EXPOSE 8000
 
